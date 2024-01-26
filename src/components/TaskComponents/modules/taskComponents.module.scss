@@ -1,0 +1,65 @@
+@import "../../../app/scssVariables.scss";
+
+.component {
+  max-width: $max-width;
+  margin: 10px auto;
+  padding: $padding;
+  background-color: $background-color2;
+  border-radius: $border-radius;
+}
+
+.searchInput,
+.taskInput,
+.filterOptions,
+.tasklist {
+  display: flex;
+  justify-content: space-between;
+  background-color: $background-color2;
+  input {
+    color: $text-color;
+    background-color: $button-bg;
+    border-radius: $border-radius;
+  }
+}
+
+.filterOptions {
+  span {
+    margin-right: 10px;
+    cursor: pointer;
+    color: $text-color;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.inputField {
+  width: 100%;
+  padding: $input-padding;
+  box-sizing: border-box;
+}
+
+.button {
+  padding: $input-padding;
+  cursor: pointer;
+  background-color: $button-bg;
+  color: $button-color;
+  border: none;
+  border-radius: $border-radius;
+  margin-left: 5px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $input-padding;
+  margin: 5px 0;
+  background-color: $background-color2;
+  border-radius: 4px;
+
+  &.completed {
+    opacity: 0.5;
+  }
+}
