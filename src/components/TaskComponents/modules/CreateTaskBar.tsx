@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import taskS from "./taskComponents.module.scss";
-import { CreateTaskByUsername } from "../services/fetchTaskData";
+import { useDispatch } from "@/lib/store";
+import { AddNewTaskHelper } from "../helpers/TaskHelpers";
 
 export default function CreateTaskBar() {
   const [inputValue, SetInputValue] = useState<string>("");
+  const dispatch = useDispatch();
 
   const onclickAddTask = () => {
-    CreateTaskByUsername("Knifer", inputValue);
+    dispatch(AddNewTaskHelper(inputValue));
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {

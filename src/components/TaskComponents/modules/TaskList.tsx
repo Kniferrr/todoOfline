@@ -1,28 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import taskS from "./taskComponents.module.scss";
-import { FetchTaskByUsername } from "../services/fetchTaskData";
+import { useDispatch, useSelector } from "@/lib/store";
+import TaskItem from "./TaskItem";
 import { TaskInterface } from "../types/typesTaskData";
-import { ReduxState, useDispatch, useSelector } from "@/lib/store";
-import { TaskSlice } from "@/lib/reducers/TaskSlice";
+import { RevalidateTasks } from "../helpers/TaskHelpers";
+import { filteredTasksSelector } from "@/lib/Selectors/FilterSelector";
 
-export default function TaskList() {
-  const [list, setList] = useState<TaskInterface[]>([]);
+function TaskList() {
   const dispatch = useDispatch();
-  const { tasksList } = useSelector((state: ReduxState) => state.TaskSlice);
+  const FilteredTasksList: TaskInterface[] = useSelector(filteredTasksSelector);
 
   useEffect(() => {
-    FetchTaskByUsername("Knifer").then((data) => {
-      setList(data);
-      dispatch(TaskSlice.actions.setTasksList(data));
-    });
+    dispatch(RevalidateTasks());
   }, []);
 
   return (
     <div className={taskS.component}>
-      {tasksList.map((t) => (
-        <div key={t.index}>{t.task}</div>
+      {FilteredTasksList.map((t) => (
+        <TaskItem taskInfo={t} key={t.index} />
       ))}
     </div>
   );
 }
+
+export default TaskList;

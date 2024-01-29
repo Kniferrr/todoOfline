@@ -1,6 +1,9 @@
 @import "../../../app/scssVariables.scss";
 
 .component {
+  display: flex;
+  flex-direction: column;
+  min-height: 20px;
   max-width: $max-width;
   margin: 10px auto;
   padding: $padding;
@@ -54,12 +57,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $input-padding;
-  margin: 5px 0;
   background-color: $background-color2;
-  border-radius: 4px;
 
   &.completed {
     opacity: 0.5;
+  }
+
+  div {
+    cursor: pointer;
+    padding: $padding;
+    border-radius: $border-radius;
+  }
+
+  div:hover {
+    background-color: $background-color;
   }
 }

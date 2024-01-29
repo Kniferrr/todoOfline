@@ -47,14 +47,16 @@ app.post("/tasks/:username", (req, res) => {
 app.post("/task/:username", (req, res) => {
   const username = req.params.username;
   const Newtasks = req.body;
-  console.log(Newtasks);
   if (!username || !Newtasks) {
     res.status(400).json({ error: "Неверный формат запроса" });
   } else {
     if (!tasks[username]) {
       res.status(404).json({ error: "Пользователь не найден" });
     } else {
-      tasks[username].push({ ...Newtasks, index: new Date() });
+      tasks[username].push({
+        ...Newtasks,
+        index: CreateIdTask(tasks[username]),
+      });
       res.status(201).json({ message: "Задача добавлена" });
     }
   }
@@ -77,7 +79,7 @@ app.delete("/tasks/:username", (req, res) => {
       if (indexToDelete !== -1) {
         tasks[username].splice(indexToDelete, 1);
       }
-      res.status(200).json({ message: "Задача удалена" });
+      res.status(200).json({ message: `${indexToDelete} Задача удалена` });
     }
   }
 });
@@ -112,6 +114,12 @@ app.patch("/tasks/:username", (req, res) => {
 function saveDataToFile() {
   dataModule.saveData(tasks);
 }
+
+const CreateIdTask = (task) => {
+  const newId = `${new Date()}`;
+  const taskFilter = task.filter((t) => t.index !== newId);
+  return taskFilter.length === task.length ? newId : `${newId}${Math.random()}`;
+};
 
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);

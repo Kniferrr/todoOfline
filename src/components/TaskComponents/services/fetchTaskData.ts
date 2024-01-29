@@ -2,9 +2,11 @@ import { TaskInterface } from "../types/typesTaskData";
 
 const ApiUrl = "http://localhost:3002/";
 
-const requestOptions = <T>(requestBody: T) => {
+type methods = "GET" | "POST" | "PATCH" | "DELETE";
+
+const requestOptions = <T>(requestBody: T, method: methods) => {
   const createRequestOptions = {
-    method: "POST",
+    method,
     headers: {
       "Content-Type": "application/json",
     },
@@ -31,12 +33,31 @@ export const CreateTaskByUsername = async (
   newTask: string
 ) => {
   try {
-    const CreateTaskOptions = requestOptions({
-      task: newTask,
-      completed: false,
-    });
-    await fetch(`${ApiUrl}task/${username}`, CreateTaskOptions)
-      .then((response) => response.json())
+    const CreateTaskOptions = requestOptions(
+      {
+        task: newTask,
+        completed: false,
+      },
+      "POST"
+    );
+    await fetch(`${ApiUrl}task/${username}`, CreateTaskOptions).then((res) =>
+      res.json()
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const DeleteTaskById = async (username: string, taskIndex: string) => {
+  try {
+    const CreateTaskOptions = requestOptions(
+      {
+        taskIndex: taskIndex,
+      },
+      "DELETE"
+    );
+    await fetch(`${ApiUrl}tasks/${username}`, CreateTaskOptions)
+      .then((res) => res.json())
       .then((data) => {
         console.log("Ответ сервера:", data);
       });
