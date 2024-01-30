@@ -56,11 +56,25 @@ export const DeleteTaskById = async (username: string, taskIndex: string) => {
       },
       "DELETE"
     );
-    await fetch(`${ApiUrl}tasks/${username}`, CreateTaskOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Ответ сервера:", data);
-      });
+    await fetch(`${ApiUrl}tasks/${username}`, CreateTaskOptions).then((res) =>
+      res.json()
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const completeTaskById = async (username: string, taskIndex: string) => {
+  try {
+    const CreateTaskOptions = requestOptions(
+      {
+        taskIndex: taskIndex,
+      },
+      "PATCH"
+    );
+    await fetch(`${ApiUrl}tasks/${username}`, CreateTaskOptions).then((res) =>
+      res.json()
+    );
   } catch (error) {
     throw error;
   }

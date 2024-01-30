@@ -10,6 +10,7 @@ export default function CreateTaskBar() {
 
   const onclickAddTask = () => {
     dispatch(AddNewTaskHelper(inputValue));
+    SetInputValue("");
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {

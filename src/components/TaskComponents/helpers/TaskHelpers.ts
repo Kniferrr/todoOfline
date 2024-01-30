@@ -3,6 +3,7 @@ import {
   CreateTaskByUsername,
   DeleteTaskById,
   FetchTaskByUsername,
+  completeTaskById,
 } from "../services/fetchTaskData";
 import { TaskSlice } from "@/lib/reducers/TaskSlice";
 
@@ -27,8 +28,8 @@ export const RevalidateTasks = () => {
 export const AddNewTaskHelper = (inputValue: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      CreateTaskByUsername("Knifer", inputValue);
       dispatch(TaskSlice.actions.addTasksInList(inputValue));
+      CreateTaskByUsername("Knifer", inputValue);
       GetTasks(dispatch);
     } catch (error) {}
   };
@@ -37,8 +38,18 @@ export const AddNewTaskHelper = (inputValue: string) => {
 export const deleteTask = (TaskIndex: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      DeleteTaskById("Knifer", TaskIndex);
       dispatch(TaskSlice.actions.deleteTasksInList(TaskIndex));
+      DeleteTaskById("Knifer", TaskIndex);
+      GetTasks(dispatch);
+    } catch (error) {}
+  };
+};
+
+export const completeTask = (TaskIndex: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch(TaskSlice.actions.completeTaskInList(TaskIndex));
+      completeTaskById("Knifer", TaskIndex);
       GetTasks(dispatch);
     } catch (error) {}
   };

@@ -1,11 +1,7 @@
+"use client";
 import { CreateIdTask } from "@/components/TaskComponents/helpers/CreateIdTask";
 import { TaskInterface } from "@/components/TaskComponents/types/typesTaskData";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-const getInitialStateFromLocalStorage = () => {
-  const savedState = localStorage.getItem("TaskReducer");
-  return savedState ? JSON.parse(savedState) : initialState;
-};
 
 interface taskSlice {
   tasksList: TaskInterface[];
@@ -17,7 +13,7 @@ const initialState: taskSlice = {
 
 export const TaskSlice = createSlice({
   name: "TaskSlice",
-  initialState: getInitialStateFromLocalStorage(),
+  initialState,
   reducers: {
     setTasksList: (state, action: PayloadAction<TaskInterface[]>) => {
       state.tasksList = action.payload;
@@ -39,6 +35,14 @@ export const TaskSlice = createSlice({
       state.tasksList = state.tasksList.filter(
         (task: TaskInterface) => task.index !== action.payload
       );
+      localStorage.setItem("TaskReducer", JSON.stringify(state));
+    },
+    completeTaskInList: (state, action: PayloadAction<string>) => {
+      const indexToArray = state.tasksList.findIndex(
+        (task: TaskInterface) => task.index === action.payload
+      );
+      state.tasksList[indexToArray].completed =
+        !state.tasksList[indexToArray].completed;
       localStorage.setItem("TaskReducer", JSON.stringify(state));
     },
   },
